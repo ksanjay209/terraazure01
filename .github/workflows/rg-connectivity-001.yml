@@ -34,8 +34,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: azurre login
         run: | 
-          az login
-          az account set --subscription 641e04c0-4e8b-43b2-8c39-709526409d7d
+          az login --service-principal -u 49b4bd2d-4b4f-4be5-b8f1-74a7520be432 -p 32K8Q~pJBehO9RT3_xAZAnNcbB9qsfXdBRHEaa8c --tenant e17cfb4c-d7a5-48fe-b384-fec3d14f0a56
+          
       # Runs a single command using the runners shell
       - name: Terraform Init
         run: |
