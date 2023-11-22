@@ -32,7 +32,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
+      - name: azurre login
+        run: | 
+          az login
+          az account set --subscription 641e04c0-4e8b-43b2-8c39-709526409d7d
       # Runs a single command using the runners shell
       - name: Terraform Init
         run: |
