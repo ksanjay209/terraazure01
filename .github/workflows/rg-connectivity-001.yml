@@ -7,7 +7,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     paths:
-      - 'Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001/*.tf'
+   #   - 'Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001/*.tf'
       - "/*.tf"
 
   # Allows you to run this workflow manually from the Actions tab
