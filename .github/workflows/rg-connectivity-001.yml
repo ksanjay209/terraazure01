@@ -35,9 +35,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: 'Terraform init'
         id: init
-        run: | 
-             az login 
-             terraform init
+        run: terraform init
                   
 
       - name: 'Terraform plan'
