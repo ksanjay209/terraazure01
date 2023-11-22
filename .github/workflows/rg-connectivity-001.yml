@@ -35,9 +35,9 @@ jobs:
       run: terraform init
 # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: |
-           terraform force-unlock 77d38e47-ce2d-909e-f252-7e07596ad4a3
-           terraform plan -input=false
+      run: terrafrom plan -input=false
+           #terraform force-unlock 77d38e47-ce2d-909e-f252-7e07596ad4a3
+           #terraform plan -input=false
 # Apply Terraform changes
     - name: Terraform Apply
       run: terraform apply -auto-approve -input=false
