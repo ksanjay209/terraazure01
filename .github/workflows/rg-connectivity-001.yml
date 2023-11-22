@@ -35,9 +35,8 @@ jobs:
       # Runs a single command using the runners shell
       - name: 'Terraform init'
         id: init
-        run: |
-          cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001
-          terraform init          
+        run: terraform init
+                  
 
       - name: 'Terraform plan'
         id: plan
