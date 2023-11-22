@@ -26,6 +26,7 @@ jobs:
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      environment: development
       
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -41,16 +42,19 @@ jobs:
           export ARM_TENANT_ID=$ARM_TENANT_ID
  
           terraform init
+          working-directory: "./"
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
           ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          working-directory: "./"
                   
 
       - name: 'Terraform plan'
         id: plan
         run: terraform plan
+        working-directory: "./"
                     
       - name: 'Terraform apply'
         id: apply
