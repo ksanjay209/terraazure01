@@ -1,79 +1,41 @@
-# This is a basic workflow to help you get started with Actions
-
-name: rg-connectivity-001
-
-# Controls when the workflow will run
+name: 'Terraform'
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    paths:
-   #   - 'Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001/*.tf'
-       - ".github/workflows/rg-connectivity-001.yml"
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches:
+    - main
+  pull_request:
   workflow_dispatch:
-
-
 permissions:
-      id-token: write
-      contents: read
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+  contents: read
 jobs:
-  # This workflow contains a single job called "build"
-  resourcegroups:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    
-    name: 'rg-connectivity-001'
+  terraform:
+    name: 'Terraform'
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      environment: development
-      
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    runs-on: ubuntu-latest
+    environment: development
+# Use the Bash shell regardless of whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-      - name: 'Az CLI login'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          #client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          #tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          #subscription-id: ${{ secrets.MVP_SUBSCRIPTION }}
-  
-      - name: 'Run Azure CLI commands'
- 
-        run: |
-          az account show
-          az group list
-          pwd 
-
-      # Runs a single command using the runners shell
-      - name: Terraform Init
-        run: |
-          export ARM_CLIENT_ID=$ARM_CLIENT_ID
-          export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET
-          export ARM_SUBSCRIPTION_ID=$MVP_SUBSCRIPTION
-          export ARM_TENANT_ID=$ARM_TENANT_ID
- 
-          terraform init
-          working-directory: "./"
-        env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          working-directory: "./"
-                  
-
-      - name: 'Terraform plan'
-        id: plan
-        run: terraform plan
-        working-directory: "./"
-                    
-      - name: 'Terraform apply'
-        id: apply
-        run: terraform apply -auto-approve
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+# Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+# Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
+# Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan -input=false
+# Apply Terraform changes
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -input=false
