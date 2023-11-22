@@ -39,7 +39,13 @@ jobs:
           export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET
           export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID
           export ARM_TENANT_ID=$ARM_TENANT_ID
+ 
           terraform init
+        env:
+          ARM_CLIENT_ID: ${{secrets.ARM_CLIENT_ID}}
+          ARM_CLIENT_SECRET: ${{secrets.ARM_CLIENT_SECRET}}
+          ARM_SUBSCRIPTION_ID: ${{secrets.MVP_SUBSCRIPTION}}
+          ARM_TENANT_ID: ${{secrets.ARM_TENANT_ID}}
                   
 
       - name: 'Terraform plan'
