@@ -5,7 +5,9 @@ terraform {
       version = "=3.81.0"
     }
   }
-
+provider "azuread" {
+    version = "~> 1.1.0"
+}
  backend "azurerm" {
     resource_group_name  = "sanjay-devops-rg"
     storage_account_name = "sanjaystac01"
